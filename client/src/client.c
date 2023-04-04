@@ -72,6 +72,11 @@ t_log* iniciar_logger(void)
 
 	nuevo_logger = log_create("tp0.log", "tp0", true, LOG_LEVEL_INFO);
 
+	if (nuevo_logger == NULL) {
+	    printf("No se pudo iniciar el logger!");
+	    exit(2);
+	}
+
 	return nuevo_logger;
 }
 
@@ -80,6 +85,11 @@ t_config* iniciar_config(void)
 	t_config* nuevo_config;
 
 	nuevo_config = config_create("cliente.config");
+
+	if (nuevo_config == NULL) {
+		printf("No se pudo iniciar el config!");
+		exit(2);
+	}
 
 	return nuevo_config;
 }
@@ -100,7 +110,7 @@ void leer_consola(t_log* logger)
 	}
 
 	// ¡No te olvides de liberar las lineas antes de regresar!
-
+	free(leido);
 }
 
 void paquete(int conexion)
@@ -123,6 +133,7 @@ void paquete(int conexion)
 
 	// ¡No te olvides de liberar las líneas y el paquete antes de regresar!
 	enviar_paquete(paquete, conexion);
+	free(leido);
 	eliminar_paquete(paquete);
 }
 
@@ -130,7 +141,18 @@ void terminar_programa(int conexion, t_log* logger, t_config* config)
 {
 	/* Y por ultimo, hay que liberar lo que utilizamos (conexion, log y config) 
 	  con las funciones de las commons y del TP mencionadas en el enunciado */
-	log_destroy(logger);
-	config_destroy(config);
-	liberar_conexion(conexion);
+	if(logger!=NULL){
+		log_destroy(logger);
+		printf("Logger destruido exitosamente");
+	}
+
+	if(config!=NULL){
+		config_destroy(config);
+		printf("Config destruida exitosamente");
+	}
+
+	if(conexion!=0){
+		liberar_conexion(conexion);
+		printf("Conexión liberada exitosamente");
+	}
 }
