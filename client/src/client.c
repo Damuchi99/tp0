@@ -143,16 +143,16 @@ void terminar_programa(int conexion, t_log* logger, t_config* config)
 	  con las funciones de las commons y del TP mencionadas en el enunciado */
 	if(logger!=NULL){
 		log_destroy(logger);
-		printf("Logger destruido exitosamente");
+		printf("Logger destruido exitosamente\n");
 	}
 
 	if(config!=NULL){
 		config_destroy(config);
-		printf("Config destruida exitosamente");
+		printf("Config destruida exitosamente\n");
 	}
 
 	if(conexion!=0){
 		liberar_conexion(conexion);
-		printf("Conexión liberada exitosamente");
+		printf("Conexión liberada exitosamente\n");
 	}
 }
